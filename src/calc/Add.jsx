@@ -49,7 +49,7 @@ const Add = () => {
     }
 
     if (input === '.') {
-      const parts = value.split(/[+\-*\/()%]/);
+      const parts = value.split(/[+\-*/()%]/);
       const lastPart = parts[parts.length - 1];
       if (lastPart.includes('.')) return;
     }
@@ -76,16 +76,16 @@ const Add = () => {
     playClick();
     setValue(value.slice(0, -1));
   };
+const handleSqrt = () => {
+  playClick();
+  try {
+    const result = Math.sqrt(evaluate(value));
+    setValue(result.toString());
+  } catch {
+    setValue('Error');
+  }
+};
 
-  const handleSqrt = () => {
-    playClick();
-    try {
-      const result = Math.sqrt(eval(value));
-      setValue(result.toString());
-    } catch {
-      setValue('Error');
-    }
-  };
 
   return (
     <div className="container">
