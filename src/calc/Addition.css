@@ -1,0 +1,185 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  user-select: none;
+}
+
+.container {
+  width: 360px;
+  background: linear-gradient(145deg, #1c1c1e, #2c2c2f);
+  border-radius: 25px;
+  box-shadow:
+    10px 10px 30px #17171a,
+    -10px -10px 30px #38383b;
+  padding: 30px 25px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calculator {
+  width: 100%;
+}
+
+/* Display */
+.display {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.display input {
+  width: 100%;
+  background: #111;
+  border-radius: 20px;
+  padding: 25px 30px;
+  font-size: 48px;
+  color: #0ef;
+  font-weight: 700;
+  text-align: right;
+  border: none;
+  box-shadow:
+    inset 2px 2px 8px #0e9,
+    inset -2px -2px 10px #06c;
+  animation: fadeInText 0.25s ease;
+  user-select: text;
+}
+
+/* Buttons grid */
+.buttons-row {
+  display: flex;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
+.buttons-row.last-row {
+  margin-bottom: 0;
+}
+
+/* Button styles */
+button {
+  flex: 1;
+  margin: 0 7px;
+  height: 65px;
+  border: none;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #eee;
+  cursor: pointer;
+  box-shadow:
+    5px 5px 15px #141416,
+    -5px -5px 15px #2e2e30;
+  background: linear-gradient(145deg, #222224, #2b2b2d);
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background: linear-gradient(145deg, #313136, #3a3a3f);
+  transform: scale(1.07);
+  box-shadow:
+    8px 8px 20px #0ef,
+    -8px -8px 20px #06c;
+}
+
+button:active {
+  transform: scale(0.95);
+  box-shadow: inset 4px 4px 8px #0ef, inset -4px -4px 8px #06c;
+}
+
+/* Specific button colors */
+
+.btn-num {
+  background: linear-gradient(145deg, #1a1a1c, #242426);
+  box-shadow:
+    5px 5px 15px #0a0a0b,
+    -5px -5px 15px #2f2f31;
+  color: #c1c1c4;
+}
+
+.btn-num:hover {
+  background: linear-gradient(145deg, #333336, #3e3e42);
+  color: #0ef;
+  box-shadow:
+    8px 8px 25px #0ef,
+    -8px -8px 25px #06c;
+}
+
+.btn-op {
+  background: linear-gradient(145deg, #0e4f72, #0977b8);
+  box-shadow:
+    5px 5px 15px #073851,
+    -5px -5px 15px #0b7bd1;
+  color: #e0f7ff;
+}
+
+.btn-op:hover {
+  background: linear-gradient(145deg, #1291ff, #0592d6);
+  box-shadow:
+    8px 8px 25px #06c,
+    -8px -8px 25px #0ef;
+}
+
+.btn-op-extra {
+  background: linear-gradient(145deg, #1c5f5c, #2c8f8a);
+  box-shadow:
+    5px 5px 15px #143c3a,
+    -5px -5px 15px #3fd6ce;
+  color: #e0f7ff;
+}
+
+.btn-op-extra:hover {
+  background: linear-gradient(145deg, #30aaa3, #3fd6ce);
+  box-shadow:
+    8px 8px 25px #3fd6ce,
+    -8px -8px 25px #30aaa3;
+}
+
+.btn-ac {
+  background: linear-gradient(145deg, #8b0000, #c30000);
+  box-shadow:
+    5px 5px 15px #5a0000,
+    -5px -5px 15px #ff1f1f;
+  color: #ffeaea;
+}
+
+.btn-ac:hover {
+  background: linear-gradient(145deg, #ff2929, #d90808);
+  box-shadow:
+    8px 8px 25px #ff1f1f,
+    -8px -8px 25px #d90808;
+}
+
+/* Footer text */
+.footer-text {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Subtle fade in for display text */
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
