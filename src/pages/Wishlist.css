@@ -1,0 +1,99 @@
+.wishlist-page {
+  padding: 4rem 2rem;
+  background-color: #f4f6f8;
+  min-height: 80vh;
+}
+
+.wishlist-page h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.wishlist-empty {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #555;
+  margin-top: 4rem;
+}
+
+.wishlist-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-weight: 500;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.wishlist-item {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-item img {
+  max-width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+}
+
+.wishlist-item a {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+}
+
+.wishlist-item a:hover {
+  color: #007bff;
+}
+
+.wishlist-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.wishlist-buttons button {
+  padding: 0.5rem 1rem;
+  background-color: #16a085;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.wishlist-buttons button:hover {
+  background-color: #12876f;
+}
+
+.wishlist-buttons .remove-btn {
+  background-color: #e74c3c;
+}
+
+.wishlist-buttons .remove-btn:hover {
+  background-color: #c0392b;
+}

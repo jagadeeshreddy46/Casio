@@ -1,0 +1,491 @@
+/*import React, { useState, useRef } from 'react';
+import './ExamBot.css';
+
+const ExamBot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { sender: 'bot', text: 'Hi! Ask me about syllabus or previous papers.' }
+  ]);
+  const [input, setInput] = useState('');
+  const recognitionRef = useRef(null);
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+    const userMessage = { sender: 'user', text: input };
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    setInput('');
+    
+    const response = generateBotResponse(input.toLowerCase());
+    const botMessage = { sender: 'bot', text: response };
+    setTimeout(() => {
+      setMessages((prev) => [...prev, botMessage]);
+      speak(response); // Optional speech output
+    }, 500);
+  };
+
+  const generateBotResponse = (query) => {
+    if (query.includes('question paper')) return '📄 Go to "Papers" section to browse question papers.';
+    if (query.includes('syllabus') || query.includes('regulation')) return '📘 Select your regulation like R20 or R22 in the "Syllabus" tab.';
+    if (query.includes('r20') || query.includes('r22')) return '✅ You can find syllabus PDFs in the syllabus tab.';
+    if (query.includes('cse') || query.includes('ece')) return '🔎 Choose your branch to see relevant materials.';
+    return "🤖 I'm here to help! Ask me about syllabus, question papers, or navigation.";
+  };
+
+  // Voice input using Speech Recognition API
+  const startListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Voice input not supported in this browser.");
+      return;
+    }
+
+    if (!recognitionRef.current) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.lang = 'en-IN';
+      recognitionRef.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+        handleSend(transcript);
+      };
+    }
+
+    recognitionRef.current.start();
+  };
+
+  const speak = (text) => {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-IN';
+    synth.speak(utterance);
+  };
+
+  return (
+    <>
+      <div className={`exam-bot ${isOpen ? 'open' : ''}`}>
+        <div className="exam-bot-header">
+          📚 Exam Helper Bot
+          <button className="close-btn" onClick={() => setIsOpen(false)}>✖</button>
+        </div>
+        <div className="exam-bot-body">
+          {messages.map((msg, i) => (
+            <div key={i} className={`message ${msg.sender}`}>{msg.text}</div>
+          ))}
+        </div>
+        <div className="exam-bot-input">
+          <input
+            type="text"
+            placeholder="Ask me anything..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+          />
+          <button onClick={handleSend}>📩</button>
+          <button onClick={startListening}>🎤</button>
+        </div>
+      </div>
+
+      <div className="chat-float-btn" onClick={() => setIsOpen(true)}>
+        💬
+      </div>
+    </>
+  );
+};
+
+export default ExamBot;
+*/
+/*
+import React, { useState, useEffect, useRef } from "react";
+import './ExamBot.css'
+import {
+  MessageSquare,
+  Send,
+  X,
+  Zap,
+} from "lucide-react";
+
+const knowledgeBase = {
+  syllabus: {
+    patterns: [
+      "syllabus",
+      "curriculum",
+      "course content",
+      "subject",
+      "topics",
+      "units",
+      "course outline",
+      "academic plan",
+    ],
+    responses: [
+      `📚 **Syllabus Information:**\n\n• Visit the "Syllabus" tab for detailed curriculum\n• Select your regulation (R20/R22/R23)\n• Choose your branch (CSE/ECE/EEE/MECH/CIVIL)\n• Download PDF files for complete course content\n• Each unit covers specific learning outcomes\n• Check for latest updates and revisions`,
+      `📖 **Curriculum Details:**\n\n• **R20 Regulation:** Industry-focused curriculum\n• **R22 Regulation:** AI/ML integrated syllabus\n• **R23 Regulation:** Latest with emerging technologies\n• Core subjects + Electives available\n• Practical and theory components included\n• Credit system clearly defined`,
+    ],
+  },
+  papers: {
+    patterns: [
+      "question paper",
+      "previous paper",
+      "past paper",
+      "exam paper",
+      "test paper",
+      "sample paper",
+      "model paper",
+      "exam pattern",
+    ],
+    responses: [
+      `📄 **Previous Question Papers:**\n\n• Navigate to "Papers" section\n• Filter by: Year, Subject, Regulation, Branch\n• Download in PDF format\n• Practice with time constraints\n• Analyze question patterns and weightage\n• Focus on frequently asked topics\n• Note marking scheme variations`,
+      `🎯 **Question Paper Strategy:**\n\n• **Last 5 years:** Essential for pattern recognition\n• **Unit-wise analysis:** Identify high-weightage units\n• **Time management:** Practice with 3-hour limit\n• **Question types:** MCQ, Short answer, Long answer\n• **Marking scheme:** Understand point distribution\n• **Difficulty levels:** Easy, Medium, Hard categorization`,
+    ],
+  },
+  study: {
+    patterns: [
+      "study",
+      "preparation",
+      "prepare",
+      "tips",
+      "how to study",
+      "study plan",
+      "study method",
+      "learning",
+      "revision",
+    ],
+    responses: [
+      `📝 **Effective Study Strategies:**\n\n• **Active Learning:** Summarize, question, teach others\n• **Spaced Repetition:** Review at increasing intervals\n• **Pomodoro Technique:** 25min study + 5min break\n• **Mind Maps:** Visual representation of concepts\n• **Practice Tests:** Regular self-assessment\n• **Study Groups:** Collaborative learning\n• **Note-taking:** Cornell method recommended`,
+      `🎯 **Comprehensive Study Plan:**\n\n• **6 weeks before:** Complete syllabus coverage\n• **4 weeks before:** Intensive revision + notes\n• **2 weeks before:** Previous papers + mock tests\n• **1 week before:** Quick revision + weak areas\n• **3 days before:** Light review only\n• **1 day before:** Relax + organize materials\n• **Exam day:** Confident execution`,
+    ],
+  },
+  time: {
+    patterns: [
+      "time management",
+      "schedule",
+      "timetable",
+      "plan",
+      "organize",
+      "planning",
+      "time table",
+      "routine",
+    ],
+    responses: [
+      `⏰ **Time Management Mastery:**\n\n• **Pomodoro Technique:** 25min focus + 5min break\n• **Priority Matrix:** Urgent vs Important tasks\n• **Time Blocking:** Dedicated slots for subjects\n• **Daily Goals:** Specific, measurable targets\n• **Progress Tracking:** Monitor completion rates\n• **Flexibility:** Allow buffer time for adjustments\n• **Rest Periods:** Essential for retention`,
+      `📅 **Optimal Daily Schedule:**\n\n• **6:00-8:00 AM:** Difficult subjects (peak focus)\n• **9:00-12:00 PM:** Moderate subjects\n• **2:00-5:00 PM:** Practice problems\n• **6:00-8:00 PM:** Revision + notes\n• **8:30-10:00 PM:** Light reading\n• **Breaks:** 15min every 2 hours\n• **Exercise:** 30min daily for mental health`,
+    ],
+  },
+  motivation: {
+    patterns: [
+      "stress",
+      "anxiety",
+      "motivation",
+      "confidence",
+      "nervous",
+      "worried",
+      "pressure",
+      "mental health",
+      "burnout",
+    ],
+    responses: [
+      `🌟 **Stay Motivated & Confident:**\n\n• **Goal Setting:** SMART goals (Specific, Measurable, Achievable)\n• **Positive Visualization:** See yourself succeeding\n• **Reward System:** Celebrate small victories\n• **Support Network:** Family, friends, mentors\n• **Self-Care:** Adequate sleep, nutrition, exercise\n• **Mindfulness:** Meditation and breathing exercises\n• **Progress Journal:** Track improvements daily`,
+      `😌 **Stress Management Techniques:**\n\n• **Deep Breathing:** 4-7-8 technique for instant calm\n• **Progressive Relaxation:** Tense and release muscles\n• **Exercise:** 30min daily reduces cortisol\n• **Sleep Hygiene:** 7-8 hours quality sleep\n• **Healthy Diet:** Brain foods like nuts, fish, fruits\n• **Social Support:** Talk to trusted friends/family\n• **Professional Help:** Counselors if needed`,
+    ],
+  },
+  technical: {
+    patterns: [
+      "programming",
+      "coding",
+      "algorithm",
+      "data structure",
+      "computer",
+      "software",
+      "java",
+      "python",
+      "c++",
+      "database",
+    ],
+    responses: [
+      `💻 **Programming Excellence:**\n\n• **Daily Practice:** Code minimum 1 hour daily\n• **Concept First:** Understand before memorizing\n• **Online Platforms:** HackerRank, LeetCode, CodeChef\n• **Project Building:** Real-world applications\n• **Code Review:** Learn from others' solutions\n• **Documentation:** Comment your code properly\n• **Version Control:** Learn Git/GitHub`,
+      `🔧 **Technical Subject Mastery:**\n\n• **Problem-Solving:** Break complex problems down\n• **Visual Learning:** Flowcharts, diagrams, UML\n• **Hands-on Practice:** Lab work and simulations\n• **Real-world Applications:** Connect theory to practice\n• **Industry Tools:** Learn relevant software\n• **Peer Learning:** Study groups and forums\n• **Continuous Learning:** Stay updated with trends`,
+    ],
+  },
+  examday: {
+    patterns: [
+      "exam day",
+      "during exam",
+      "exam hall",
+      "exam tips",
+      "test day",
+      "examination",
+      "exam strategy",
+    ],
+    responses: [
+      `📋 **Exam Day Success Checklist:**\n\n• **Night Before:** 8+ hours sleep, light review only\n• **Morning:** Nutritious breakfast, avoid heavy meals\n• **Arrival:** Reach 30 minutes early\n• **Materials:** ID, admit card, pens, calculator\n• **Mindset:** Positive affirmations, deep breathing\n• **Clothing:** Comfortable, weather-appropriate\n• **Emergency:** Backup pens, contact numbers`,
+      `✍️ **During Exam Strategy:**\n\n• **First 5 minutes:** Read all questions carefully\n• **Question Selection:** Start with easiest questions\n• **Time Allocation:** Divide time per question\n• **Writing Style:** Clear, legible handwriting\n• **Answer Structure:** Introduction, body, conclusion\n• **Review Time:** Keep 15 minutes for checking\n• **Stay Calm:** Deep breaths if feeling overwhelmed`,
+    ],
+  },
+  academic: {
+    patterns: [
+      "grade",
+      "marks",
+      "score",
+      "cgpa",
+      "gpa",
+      "result",
+      "performance",
+      "improvement",
+      "marks improvement",
+    ],
+    responses: [
+      `📊 **Academic Performance Enhancement:**\n\n• **Regular Attendance:** 85%+ for better understanding\n• **Active Participation:** Ask questions, join discussions\n• **Assignment Quality:** Submit on time with effort\n• **Feedback Integration:** Learn from professor comments\n• **Peer Learning:** Form study groups\n• **Resource Utilization:** Library, online materials\n• **Consistent Effort:** Daily progress over cramming`,
+      `🎖️ **Grade Improvement Strategy:**\n\n• **Weakness Analysis:** Identify problem areas\n• **Targeted Practice:** Focus on weak subjects\n• **Additional Resources:** Textbooks, online courses\n• **Professor Consultation:** Office hours utilization\n• **Mock Tests:** Regular self-assessment\n• **Study Techniques:** Try different methods\n• **Long-term Planning:** Semester-wise goals`,
+    ],
+  },
+  career: {
+    patterns: [
+      "career",
+      "job",
+      "placement",
+      "interview",
+      "resume",
+      "internship",
+      "future",
+      "industry",
+      "skills",
+    ],
+    responses: [
+      `🚀 **Career Preparation Roadmap:**\n\n• **Academic Excellence:** Maintain 8.5+ CGPA\n• **Technical Skills:** Programming, tools, certifications\n• **Soft Skills:** Communication, leadership, teamwork\n• **Projects:** Build impressive portfolio\n• **Internships:** Gain real-world experience\n• **Networking:** Connect with professionals\n• **Resume Building:** Highlight achievements`,
+      `💼 **Industry Readiness:**\n\n• **Current Trends:** AI, ML, Cloud, Cybersecurity\n• **Skill Development:** Continuous learning mindset\n• **Certifications:** AWS, Google, Microsoft, Cisco\n• **Communication:** English proficiency essential\n• **Problem Solving:** Analytical thinking\n• **Adaptability:** Ready for change\n• **Professional Ethics:** Integrity and responsibility`,
+    ],
+  },
+  mathematics: {
+    patterns: [
+      "math",
+      "mathematics",
+      "calculus",
+      "algebra",
+      "statistics",
+      "probability",
+      "geometry",
+      "trigonometry",
+    ],
+    responses: [
+      `🔢 **Mathematics Mastery:**\n\n• **Concept Understanding:** Why before how\n• **Formula Derivation:** Understand origins\n• **Step-by-step Solutions:** Show all work\n• **Practice Variety:** Different problem types\n• **Visual Learning:** Graphs, diagrams, charts\n• **Error Analysis:** Learn from mistakes\n• **Application Focus:** Real-world connections`,
+      `📐 **Mathematical Problem Solving:**\n\n• **Read Carefully:** Understand what's asked\n• **Identify Given:** List known information\n• **Choose Method:** Select appropriate technique\n• **Work Systematically:** Logical progression\n• **Check Answers:** Verify reasonableness\n• **Alternative Methods:** Multiple approaches\n• **Pattern Recognition:** Look for similarities`,
+    ],
+  },
+  science: {
+    patterns: [
+      "physics",
+      "chemistry",
+      "biology",
+      "science",
+      "experiment",
+      "lab",
+      "theory",
+      "practical",
+    ],
+    responses: [
+      `🧪 **Science Subject Excellence:**\n\n• **Concept First:** Theory before application\n• **Visual Learning:** Diagrams, models, animations\n• **Practical Work:** Lab experiments essential\n• **Formula Understanding:** Derivation and application\n• **Real-world Examples:** Connect to daily life\n• **Problem Practice:** Numerical and conceptual\n• **Scientific Method:** Observation, hypothesis, testing`,
+      `🔬 **Laboratory Skills:**\n\n• **Safety First:** Follow all protocols\n• **Accurate Measurements:** Precision matters\n• **Observation Skills:** Record everything\n• **Data Analysis:** Interpret results correctly\n• **Report Writing:** Clear, concise documentation\n• **Error Analysis:** Understand uncertainties\n• **Hypothesis Testing:** Scientific reasoning`,
+    ],
+  },
+};
+
+const quickActions = [
+  { label: "Syllabus", key: "syllabus", icon: <Zap size={14} /> },
+  { label: "Previous Papers", key: "papers", icon: <Zap size={14} /> },
+  { label: "Study Tips", key: "study", icon: <Zap size={14} /> },
+  { label: "Time Management", key: "time", icon: <Zap size={14} /> },
+  { label: "Motivation", key: "motivation", icon: <Zap size={14} /> },
+  { label: "Technical Subjects", key: "technical", icon: <Zap size={14} /> },
+  { label: "Exam Day Tips", key: "examday", icon: <Zap size={14} /> },
+  { label: "Grades & Performance", key: "academic", icon: <Zap size={14} /> },
+  { label: "Career Guidance", key: "career", icon: <Zap size={14} /> },
+  { label: "Mathematics", key: "mathematics", icon: <Zap size={14} /> },
+  { label: "Science", key: "science", icon: <Zap size={14} /> },
+];
+
+const ExamBot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      sender: "bot",
+      text: `Hi! I'm your comprehensive Exam Helper Bot. I can help you with syllabus, previous papers, study tips, exam preparation, time management, stress management, technical subjects, career guidance, and much more. What would you like to know?`,
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const [showQuickActions, setShowQuickActions] = useState(true);
+  const messagesEndRef = useRef(null);
+
+  // Scroll messages to bottom
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Handle user input submission
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    const userMessage = { sender: "user", text: input.trim() };
+    setMessages((prev) => [...prev, userMessage]);
+    setShowQuickActions(false);
+
+    // Simple knowledge base lookup (case-insensitive)
+    const lowerInput = input.toLowerCase();
+    let found = false;
+    for (const key in knowledgeBase) {
+      if (
+        knowledgeBase[key].patterns.some((pattern) =>
+          lowerInput.includes(pattern)
+        )
+      ) {
+        const kbResponses = knowledgeBase[key].responses;
+        const botResponse = kbResponses[Math.floor(Math.random() * kbResponses.length)];
+
+        setTimeout(() => {
+          setMessages((prev) => [...prev, { sender: "bot", text: botResponse }]);
+        }, 1000);
+
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text:
+              "Sorry, I didn't understand that. Please ask about syllabus, papers, study tips, or other topics.",
+          },
+        ]);
+      }, 1000);
+    }
+
+    setInput("");
+  };
+
+  // Handle quick action click
+  const handleQuickActionClick = (key) => {
+    const kbResponses = knowledgeBase[key]?.responses;
+    if (!kbResponses) return;
+
+    const botResponse =
+      kbResponses[Math.floor(Math.random() * kbResponses.length)];
+
+    setMessages((prev) => [
+      ...prev,
+      { sender: "user", text: key.charAt(0).toUpperCase() + key.slice(1) },
+      { sender: "bot", text: botResponse },
+    ]);
+    setShowQuickActions(false);
+  };
+
+  // Toggle chat open/close
+  const toggleOpen = () => {
+    setIsOpen((open) => !open);
+    if (!isOpen) {
+      setShowQuickActions(true);
+    }
+  };
+
+  // Handle enter key in input
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
+  return (
+    <div className="exambot-container">
+      {isOpen ? (
+        <div className="exambot-widget open" role="dialog" aria-modal="true" aria-label="Exam Helper Chatbot">
+          <div className="exambot-header">
+            <div>
+              <h3>Exam Helper Bot</h3>
+              <p>Ask me anything about exams & study!</p>
+            </div>
+            <button
+              onClick={toggleOpen}
+              aria-label="Close chat"
+              className="exambot-close-btn"
+              type="button"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          {showQuickActions && (
+            <div className="exambot-quick-actions" aria-label="Quick topics">
+              <p>Quick Topics:</p>
+              <div className="actions-grid">
+                {quickActions.map(({ label, key, icon }) => (
+                  <button
+                    key={key}
+                    onClick={() => handleQuickActionClick(key)}
+                    type="button"
+                    aria-label={`Ask about ${label}`}
+                  >
+                    {icon} {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="exambot-messages" aria-live="polite" aria-atomic="false">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`message ${msg.sender}`}
+                role={msg.sender === "bot" ? "alert" : "text"}
+                aria-live={msg.sender === "bot" ? "polite" : "off"}
+              >
+                {msg.text.split("\n").map((line, idx) => (
+                  <p key={idx}>{line}</p>
+                ))}
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="exambot-input-area">
+            <input
+              type="text"
+              aria-label="Type your question here"
+              className="exambot-input"
+              placeholder="Type your question..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              autoComplete="off"
+            />
+            <button
+              onClick={handleSend}
+              className="button"
+              aria-label="Send message"
+              disabled={!input.trim()}
+              type="button"
+            >
+              <Send size={20} />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          aria-label="Open chat"
+          className="chat-toggle-btn"
+          onClick={toggleOpen}
+          type="button"
+        >
+          <MessageSquare size={24} />
+          <div className="ai-badge" aria-hidden="true">
+            AI
+          </div>
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default ExamBot;

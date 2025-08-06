@@ -1,0 +1,164 @@
+.search {
+  padding: 2rem 1rem;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.search__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.search__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.search__subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Controls layout */
+.search__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.search__control {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.search__control label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.search__control select,
+.search__control input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  min-width: 150px;
+}
+
+.search__control--input {
+  position: relative;
+}
+
+.search__control--input input {
+  width: 250px;
+  padding-right: 2rem;
+}
+
+.search__clearInput {
+  position: absolute;
+  right: 0.5rem;
+  top: 34%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.search__clearInput:hover {
+  color: #333;
+}
+
+.search__clearAll {
+  background: #eee;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  height: fit-content;
+}
+
+.search__clearAll:hover {
+  background: #ddd;
+}
+
+/* Keyboard shortcut hint */
+.search__shortcutHint {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.search__shortcutHint kbd {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 0 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin: 0 0.1rem;
+}
+
+/* Summary */
+.search__summary {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Empty state */
+.search__empty {
+  text-align: center;
+  color: #666;
+}
+
+.search__emptyBadge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
+
+/* Product grid */
+.search__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+.search__cardFade {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: cardFadeIn .32s ease-out forwards;
+}
+
+.search__cardFade:nth-child(1) { animation-delay: .02s; }
+.search__cardFade:nth-child(2) { animation-delay: .04s; }
+.search__cardFade:nth-child(3) { animation-delay: .06s; }
+.search__cardFade:nth-child(4) { animation-delay: .08s; }
+.search__cardFade:nth-child(5) { animation-delay: .10s; }
+.search__cardFade:nth-child(6) { animation-delay: .12s; }
+.search__cardFade:nth-child(7) { animation-delay: .14s; }
+.search__cardFade:nth-child(8) { animation-delay: .16s; }
+.search__cardFade:nth-child(9) { animation-delay: .18s; }
+.search__cardFade:nth-child(10) { animation-delay: .20s; }
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
